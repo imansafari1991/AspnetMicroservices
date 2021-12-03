@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ordering.Domain\Ordering.Domain.csproj" />
+    <Compile Remove="NewFolder\**" />
+    <EmbeddedResource Remove="NewFolder\**" />
+    <None Remove="NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="NewFolder\" />
+    <ProjectReference Include="..\Ordering.Domain\Ordering.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
