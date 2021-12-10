@@ -58,6 +58,7 @@ namespace AspnetRunBasics
                 Quantity = 1,
                 Color = "Black"
             });
+            var updatedBasket = await _basketService.UpdateBasket(basket);
             return RedirectToPage("Cart");
         }
     }
