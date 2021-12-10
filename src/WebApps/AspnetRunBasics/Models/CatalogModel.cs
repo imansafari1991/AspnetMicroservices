@@ -1,4 +1,4 @@
-﻿namespace Shopping.Aggregator.Models
+﻿namespace AspnetRunBasics.Models
 {
     public class CatalogModel
     {
