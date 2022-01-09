@@ -1,5 +1,7 @@
 
 using AspnetRunBasics.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 
@@ -32,7 +34,7 @@ namespace AspnetRunBasics
 
             services.AddHttpClient<IOrderService, OrderService>(c =>
                 c.BaseAddress = new Uri(Configuration["ApiSettings:GatewayAddress"]));
-       
+
 
             #region project services
 
@@ -40,9 +42,28 @@ namespace AspnetRunBasics
             //services.AddScoped<ICatalogService, CatalogService>();
             //services.AddScoped<IBasketService, BasketService>();
             //services.AddScoped<IOrderService, OrderService>();
-            
-            #endregion
 
+            #endregion
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+ .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+ .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+ {
+     options.Authority = "https://localhost:5005";
+
+     options.ClientId = "shopping_web";
+     options.ClientSecret = "secret";
+     options.ResponseType = "code id_token";
+
+     options.Scope.Add("openid");
+     options.Scope.Add("profile");
+     options.Scope.Add("catalogApi");
+     options.SaveTokens = true;
+     options.GetClaimsFromUserInfoEndpoint = true;
+ });
             services.AddRazorPages();
         }
 
